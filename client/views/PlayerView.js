@@ -10,9 +10,12 @@ var PlayerView = Backbone.View.extend({
   },
 
   initialize: function() {
+    //add a listenre to the model
+      //when ended happens on the model, trigger ended on the $el
   },
 
   setSong: function(song) {
+    debugger;
     this.model = song;
     this.render();
   },
@@ -38,3 +41,5 @@ var PlayerView = Backbone.View.extend({
 //     // your code here
 //     this.model.toggleLike();
 //   },
+
+//

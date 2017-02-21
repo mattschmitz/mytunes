@@ -67,6 +67,26 @@ describe('SongQueue', function() {
       expect(removeSpy).to.have.been.called;
       SongQueue.prototype.remove.restore();
     });
+
+    it('plays next song if first song was dequeued', function() {
+      var songQueue = new SongQueue([songData1, songData2]);
+      songQueue.at(0).dequeue();
+      expect(playSpy).to.have.been.called;
+    });
+
+    it('doesn\'t restart playing if a song was dequeued that wasn\'t the first song', function() {
+      var songQueue = new SongQueue([songData1, songData2]);
+      songQueue.at(1).dequeue();
+      expect(playSpy).to.have.not.been.called;
+    });
+
+    it('stops playing song if dequeued song was the only song', function() {
+      handleEndSpy = sinon.spy(SongQueue.prototype, 'handleEnd');
+      var songQueue = new SongQueue(songData1);
+      songQueue.at(0).dequeue();
+      expect(handleEndSpy).to.have.been.called;
+    });
+
   });
 
   describe('playFirst', function() {

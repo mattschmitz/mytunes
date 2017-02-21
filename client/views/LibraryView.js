@@ -15,8 +15,6 @@ var LibraryView = Backbone.View.extend({
   },
 
   renderEntryView: function(song) {
-    console.log('in LibraryView');
-    console.log(song);
     var entryView = new LibraryEntryView({model: song});
     this.$el.append(entryView.render());
   },

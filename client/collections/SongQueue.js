@@ -10,7 +10,19 @@ var SongQueue = Backbone.Collection.extend({
       }
     });
     this.on('ended', this.handleEnd);
-    this.on('dequeue', this.remove);
+    this.on('dequeue', this.handleDequeue); //change this to handle Dequeue
+  },
+
+  //handleDequeue: 
+  handleDequeue: function (song) {
+
+    if (song === this.models[0]) { //if song was first
+      song.ended(); //trigger ended
+    } else { //just a song farther down in the queue
+      this.remove(song);
+    }
+    //else, simply remove song.
+    
   },
 
   playFirst: function () {
@@ -20,7 +32,7 @@ var SongQueue = Backbone.Collection.extend({
 
   handleEnd: function(song) {
     this.remove(song); //remove that song from the collection
-    if (this.models.length > 0) {
+    if (this.models.length > 0) { 
       this.playFirst(); 
     }
   }
