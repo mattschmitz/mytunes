@@ -3,26 +3,23 @@ var Songs = Backbone.Collection.extend({
 
   model: SongModel,
 
+  url: 'http://parse.sfm8.hackreactor.com/mytunes/classes/songs',
+
   initialize: function () {
     var thisSongs = this;
-    $.ajax({
-      url: 'http://parse.sfm8.hackreactor.com/mytunes/classes/songs',
-      type: 'GET',
-      dataType: 'json',
-      success: function (data) {
-        // console.log(data.results);
-        thisSongs.add(data.results);
 
-        //transmit success event.
-        thisSongs.trigger('newSongs', this);
+    var onSuccess = function (collection, response, options) {
+      thisSongs.set(response.results);
+      thisSongs.trigger('newSongs');
+    };
 
-        // thisSongs.forEach(function(model) {
-        //   console.log(model.get('url'));
-        // });
-      },
-      error: function (data) {
-        console.error('failed');
-      }
+    var onFailure = function () {
+      console.log('failed');
+    };
+
+    this.fetch({
+      success: onSuccess,
+      failure: onFailure
     });
 
   }
